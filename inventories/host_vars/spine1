@@ -14,8 +14,10 @@ bgp_fabric:
 interfaces:
   swp1:
     alias: downlink-leaf-1
-    address: "{{ loopback }}"
+    address: 10.2.1.2
+    netmask: 30
 
   swp2:
     alias: downlink-leaf-2
-    address: "{{ loopback }}"
+    address: 10.2.3.2
+    netmask: 30

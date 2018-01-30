@@ -14,8 +14,10 @@ bgp_fabric:
 interfaces:
   swp1:
     alias: uplink-spine-2
-    address: "{{ loopback }}"
+    address: 10.2.4.1
+    netmask: 30
 
   swp2:
     alias: uplink-spine-1
-    address: "{{ loopback }}"
+    address: 10.2.3.1
+    netmask: 30
