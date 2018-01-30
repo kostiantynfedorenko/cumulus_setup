@@ -1,0 +1,21 @@
+---
+
+loopback: 3.3.3.3/32
+
+bgp_fabric:
+  asn: 65003
+  router_id: 3.3.3.3
+  neighbor:
+    - swp1
+    - swp2
+  networks:
+    - 3.3.3.3/32
+
+interfaces:
+  swp1:
+    alias: downlink-leaf-1
+    address: "{{ loopback }}"
+
+  swp2:
+    alias: downlink-leaf-2
+    address: "{{ loopback }}"

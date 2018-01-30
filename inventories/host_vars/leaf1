@@ -1,0 +1,21 @@
+---
+
+loopback: 1.1.1.1/32
+
+bgp_fabric:
+  asn: 65001
+  router_id: 1.1.1.1
+  neighbor:
+    - swp1
+    - swp2
+  networks:
+    - 1.1.1.1/32
+
+interfaces:
+  swp1:
+    alias: uplink-spine-1
+    address: "{{ loopback }}"
+
+  swp2:
+    alias: uplink-spine-2
+    address: "{{ loopback }}"

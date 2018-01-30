@@ -1,0 +1,21 @@
+---
+
+loopback: 2.2.2.2/32
+
+bgp_fabric:
+  asn: 65002
+  router_id: 2.2.2.2
+  neighbor:
+    - swp1
+    - swp2
+  networks:
+    - 2.2.2.2/32
+
+interfaces:
+  swp1:
+    alias: uplink-spine-2
+    address: "{{ loopback }}"
+
+  swp2:
+    alias: uplink-spine-1
+    address: "{{ loopback }}"

@@ -1,0 +1,47 @@
+
+interface lo
+
+interface eth0
+  address dhcp
+
+interface swp1
+  address 10.2.4.2/30
+
+interface swp2
+  address 10.2.2.2/30
+
+hostname Cumulux-VX-spine2
+
+log syslog informational
+
+dot1x
+  mab-activation-delay 30
+  eap-reauth-period 0
+  
+  radius
+    accounting-port 1813
+    authentication-port 1812
+
+time
+  
+  zone
+    Etc/UTC
+  
+  ntp
+    
+    servers
+      0.cumulusnetworks.pool.ntp.org iburst
+      1.cumulusnetworks.pool.ntp.org iburst
+      2.cumulusnetworks.pool.ntp.org iburst
+      3.cumulusnetworks.pool.ntp.org iburst
+    
+    source
+      eth0
+
+dns
+  
+  nameserver
+    10.128.0.3
+
+snmp-server
+  listening-address localhost
