@@ -1,0 +1,19 @@
+---
+
+- hosts:
+    - leaf1
+  become_user: cumulus
+  become: yes
+  become_method: sudo
+  vars:
+    ansible_become_pass: "CumulusLinux!"
+
+  handlers:
+    - name: reload networking
+      command: "{{item}}"
+      with_items:
+        - ifreload -a
+        - sleep 10
+
+  roles:
+    - interfaces
