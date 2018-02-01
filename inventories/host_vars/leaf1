@@ -2,6 +2,9 @@
 
 loopback: 1.1.1.1/32
 
+routing_protocols:
+  bgp: 'yes'
+
 bgp_fabric:
   asn: 65001
   router_id: 1.1.1.1
@@ -14,10 +17,10 @@ bgp_fabric:
 interfaces:
   swp1:
     alias: uplink-spine-1
-    address: 10.2.1.1
-    netmask: 30
+    address: "{{ loopback }}"
+#    netmask: 30
 
   swp2:
     alias: uplink-spine-2
-    address: 10.2.2.1
-    netmask: 30
+    address: "{{ loopback }}"
+#    netmask: 30

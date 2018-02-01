@@ -14,5 +14,9 @@
         - ifreload -a
         - sleep 10
 
+    - name: restart frr
+      service: name=frr state=restarted
+
   roles:
     - interfaces
+    - routing

@@ -31,8 +31,8 @@ iface {{ port }}
 {% if value and 'bridge_pvid' in value  %}
     bridge-pvid {{ value.bridge_pvid }}
 {% endif %}
-{% if value and 'address' and 'netmask' in value %}
-    address {{ value.address }}/{{ value.netmask }}
+{% if value and 'address' in value %}
+    address {{ value.address }}
 {% endif %}
 {% if value and 'vrf' in value %}
     vrf {{ value.vrf }}
