@@ -1,12 +1,11 @@
 ---
 
 - hosts:
-    - leaf1
-  become_user: cumulus
+    - leafs
+    - spines
+  become_user: root
   become: yes
   become_method: sudo
-  vars:
-    ansible_become_pass: "CumulusLinux!"
 
   handlers:
     - name: reload networking
