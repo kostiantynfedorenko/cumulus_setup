@@ -4,8 +4,6 @@
     - spines
   become: yes
   become_user: cumulus
-  vars:
-    ansible_become_pass: "CumulusLinux!"
   tasks:
     - name: fetch ports.conf
       fetch: dest=backup/{{ansible_hostname}}/ports.conf src=/etc/cumulus/ports.conf flat=yes

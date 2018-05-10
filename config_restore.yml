@@ -2,12 +2,9 @@
 - hosts:
     - leafs
     - spines
-  become: 'yes'
+  become: yes
   become_method: sudo
-  remote_user: cumulus
   become_user: cumulus
-  vars:
-    ansible_become_pass: 'CumulusLinux!'
   tasks:
     - name: copy ports.conf
       copy: src=backup/{{ansible_hostname}}/ports.conf dest=/etc/cumulus/ports.conf
