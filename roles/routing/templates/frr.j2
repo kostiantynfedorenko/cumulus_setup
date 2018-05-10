@@ -7,6 +7,13 @@ service integrated-vtysh-config
 !
 log syslog
 !
+{% if vrf is defined %}
+{% for vrf_name, value in vrf.items() %}
+vrf {{ vrf_name }}
+ vni {{ value.vni }}
+{% endfor %}
+{% endif %}
+!
 {% if bgp_fabric is defined %}
 {% if bgp_fabric.neighbor is defined %}
 {% for item in bgp_fabric.neighbor %}
@@ -35,6 +42,24 @@ router bgp {{ bgp_fabric.asn }}
 {% endfor %}
  exit-address-family
  !
+ {% if bgp_fabric.evpn is defined %}
+ address-family l2vpn evpn
+  neighbor fabric activate
+ {% if bgp_fabric.advertise_vni is defined %}
+   advertise-all-vni
+ {% endif %}
+  exit-address-family
+ {% endif %}
+ {% if vrf is defined %}
+ {% for item in vrf %}
+ !
+router bgp {{ bgp_fabric.asn }} vrf {{ item }}
+ !
+ address-family l2vpn evpn
+  advertise ipv4 unicast
+  exit-address-family
+ {% endfor %}
+ {% endif %}
 {% endif %}
 !
 line vty

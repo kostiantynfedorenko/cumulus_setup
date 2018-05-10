@@ -3,7 +3,7 @@
 - hosts:
     - leafs
     - spines
-  become_user: root
+  become_user: cumulus
   become: yes
   become_method: sudo
 

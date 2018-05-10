@@ -1,6 +1,9 @@
 ---
 
 loopback: 1.1.1.1/32
+vrf:
+  CUST1:
+    vni: 10400
 
 routing_protocols:
   bgp: 'yes'
@@ -13,14 +16,60 @@ bgp_fabric:
     - swp2
   networks:
     - 1.1.1.1/32
+  evpn: true
+  advertise_vni: true
 
 interfaces:
   swp1:
     alias: uplink-spine-1
     address: "{{ loopback }}"
-#    netmask: 30
-
   swp2:
     alias: uplink-spine-2
     address: "{{ loopback }}"
-#    netmask: 30
+  swp3:
+    alias: server-vlan-100
+    bridge_access: 100
+  swp4:
+    alias: server-vlan-200
+    bridge_access: 200
+
+vlans:
+  100:
+    alias: vlan-100
+    vipv4: 10.0.100.254/24
+    vmac: 00:00:00:00:10:0a
+    lipv4: 10.0.200.251/24
+    vrf: 'CUST1'
+  200:
+    alias: vlan-200
+    vipv4: 10.0.200.254/24
+    vmac: 00:00:00:00:20:0a
+    lipv4: 10.0.200.251/24
+    vrf: 'CUST1'
+  400:
+    alias: vlan-400
+    vrf: 'CUST1'
+
+vxlans:
+  10100:
+    alias: 'vxlan-100'
+    vxlan_local_tunnelip: 1.1.1.1
+    bridge_access: 100
+    bridge_learning: 'off'
+    bridge_arp_nd_suppress: 'on'
+  10200:
+    alias: vxlan-200
+    vxlan_local_tunnelip: 1.1.1.1
+    bridge_access: 200
+    bridge_learning: 'off'
+    bridge_arp_nd_suppress: 'on'
+  10400:
+    alias: vxlan400
+    vxlan_local_tunnelip: 1.1.1.1
+    bridge_access: 400
+    bridge_learning: 'off'
+    bridge_arp_nd_suppress: 'on'
+
+bridge:
+  ports: swp3 swp4 vxlan-100 vxlan-200 vxlan400
+  vids: 100 200 400

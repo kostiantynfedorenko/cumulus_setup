@@ -13,14 +13,12 @@ bgp_fabric:
     - swp2
   networks:
     - 4.4.4.4/32
+  evpn: true
 
 interfaces:
   swp1:
     alias: downlink-leaf-2
     address: "{{ loopback }}"
-#    netmask: 30
-
   swp2:
     alias: downlink-leaf-1
     address: "{{ loopback }}"
-#    netmask: 30

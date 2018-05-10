@@ -6,6 +6,16 @@ iface lo inet loopback
     address {{ loopback }}
 {% endif %}
 
+{% if vrf is defined %}
+{% for item in vrf %}
+auto {{ item }}
+iface {{ item }}
+    vrf-table auto
+
+{% endfor %}
+{% endif %}
+
+
 {% if interfaces is defined %}
 {% for port, value in interfaces.items() %}
 auto {{ port }}
@@ -39,4 +49,41 @@ iface {{ port }}
 {% endif %}
 
 {% endfor %}
+{% endif %}
+
+{% if bridge is defined %}
+auto bridge
+iface bridge
+    bridge-vlan-aware yes
+    bridge-ports {{ bridge.ports }}
+    bridge-vids {{ bridge.vids }}
+
+{% for vlan_id, value in vlans.items() %}
+auto {{ value.alias }}
+iface {{ value.alias }}
+{% if 'lipv4' in value %}
+    address {{ value.lipv4 }}
+{% endif %}
+{% if 'vipv4' in value %}
+    address-virtual {{ value.vmac }} {{ value.vipv4 }}
+{% endif %}
+    vlan-id {{ vlan_id }}
+    vlan-raw-device bridge
+    vrf {{ value.vrf }}
+
+{% endfor %}
+
+{% for vxlan_id, value in vxlans.items() %}
+auto {{ value.alias }}
+iface {{ value.alias }}
+    bridge-access {{ value.bridge_access }}
+    bridge-arp-nd-suppress {{ value.bridge_arp_nd_suppress }}
+    bridge-learning {{ value.bridge_learning }}
+    mstpctl-bpduguard yes
+    mstpctl-portbpdufilter yes
+    vxlan-id {{ vxlan_id }}
+    vxlan-local-tunnelip {{ value.vxlan_local_tunnelip }}
+
+{% endfor %}
+
 {% endif %}
